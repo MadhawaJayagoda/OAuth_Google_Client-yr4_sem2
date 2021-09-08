@@ -44,7 +44,6 @@ app.get('/', (req, res) => {
             version: 'v2'
         });
 
-        // User info
         oAuth2.userinfo.get(function (err, response) {
             if (err) {
                 console.log(err.message);
@@ -66,8 +65,29 @@ app.get('/', (req, res) => {
     }
 });
 
+app.get('/google/callback', (req, res) => {
 
-// start listening to the server
+    const code = req.query.code;
+
+    if(code) {
+        OAuth2Client.getToken( code, function (err, tokens) {
+            if (err) {
+                console.log("Error occured when getting Access Tokens", err.message);
+            } else {
+                console.log("Successfully received an Access Token");
+                console.log("Access Tokens: ", tokens);
+                OAuth2Client.setCredentials(tokens);
+
+                authorized = true;
+
+                res.redirect('/')
+            }
+
+        })
+    }
+});
+
+
 app.listen(3000, () => {
     console.log("Application is running on port:", 3000);
 });
