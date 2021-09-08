@@ -1,7 +1,10 @@
 node_modules/
 resources/.env
-views/
+**/success*.*
 resources/credentials.json
 package.json
 package-lock.json
 .idea
+resources/constants.js
+public/
+resources/
