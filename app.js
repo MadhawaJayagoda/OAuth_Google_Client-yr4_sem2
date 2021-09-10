@@ -87,6 +87,45 @@ app.get('/google/callback', (req, res) => {
     }
 });
 
+app.post('/upload', (req, res) => {
+    upload(req, res, function(err) {
+        if(err) {
+            thorw err;
+        }
+
+        const drive = google.drive({
+            version:'v3',
+            auth: OAuth2Client
+        });
+
+        const fileMetaData = {
+            name: req.file.filename
+        };
+
+        const media = {
+            mimeType: req.file.mimetype,
+            body: fs.createReadStream(req.file.path)
+        };
+
+        drive.files.create({
+            resource: fileMetaData,
+            media: media,
+            fields: "id"
+        }, (err, file) => {
+            if (err) {
+                console.log("Error occured in uploading file to Google Drive");
+                console.log(err.message);
+                throw err;
+            }
+
+            res.render("success", {
+                name: name,
+                pic: profilePic,
+                success:true
+            })
+        });
+    });
+});
 
 async function getFileList(drive) {
     const response = await drive.files.list({
