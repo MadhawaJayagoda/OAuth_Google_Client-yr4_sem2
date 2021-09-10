@@ -127,6 +127,10 @@ app.post('/upload', (req, res) => {
     });
 });
 
+app.get('/logout', (req, res) => {
+   res.redirect('/');
+});
+
 async function getFileList(drive) {
     const response = await drive.files.list({
         pageSize: 10,
