@@ -88,6 +88,35 @@ app.get('/google/callback', (req, res) => {
 });
 
 
+async function getFileList(drive) {
+    const response = await drive.files.list({
+        pageSize: 10,
+        fields: "nextPageToken, files(id, name, mimeType, createdTime)",
+    });
+    const files = response.data.files;
+    const fileArray = [];
+    if (files.length) {
+        const fileDisplay = [];
+        const fileId = [];
+        const mimeType = [];
+
+        for (var i = 0; i < files.length; i++) {
+            fileDisplay.push(files[i].name);
+            fileId.push(files[i].id);
+            mimeType.push(files[i].mimeType);
+        }
+        for (var y = 0; y < fileDisplay.length; y++) {
+            fileArray.push({
+                file: fileDisplay[y],
+                id: fileId[y],
+                type: mimeType[y],
+            });
+        }
+    }
+    return fileArray;
+}
+
+
 app.listen(3000, () => {
     console.log("Application is running on port:", 3000);
 });
