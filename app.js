@@ -116,6 +116,31 @@ async function getFileList(drive) {
     return fileArray;
 }
 
+app.get('/gldrive', async (req, res) => {
+
+    const drive = google.drive({
+        version: "v3",
+        auth: OAuth2Client
+    });
+    fileArray = await getFileList(drive).catch((err) => {
+        if (err) console.log(err);
+    });
+
+    if(fileArray.length == undefined || fileArray.length == 0 ) {
+        res.redirect('/');
+    } else {
+
+    res.render("drive", {
+        name: name,
+        pic: profilePic,
+        fileArray: fileArray,
+        sharedFile: sharedFile,
+        sharedLink: sharedLink,
+    });
+
+    }
+});
+
 
 app.listen(3000, () => {
     console.log("Application is running on port:", 3000);
