@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+    <title>Node Authentication</title>
+</head>
+<body>
+    <nav class="nav-wrapper">
+        <span class="material-icons google-drive">add_to_drive</span>
+        <ul class="right" id="nav-items">
+            <li><a href="/gldrive" class="ref drive"> Drive </a></li>
+            <li><a href="/logout" class="ref logout"> Logout </a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="page-header text-center">
+            <h1><span class="fa fa-anchor"></span> Profile Page</h1>
+            <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="container profile">
+                    <div class='banner-img'></div>
+                    <img src="<%=pic%>" alt='profile image' class="profile-img">
+                    <h1 class="name"><%=name%></h1>
+                    <p class="description">Hi there! My name is <%=name%> and I am a book lover, traveler and professional blogger. Follow me to stay connected!</p>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="container file-data">
+                    <ul>
+                        <li class="collection-header center-align">
+                            <img src="googleDriveIcon.jpg" style="width:5.4rem; height:5rem; margin-top: 26px;">
+                            <h4 style="margin-bottom: 38px;"> Google Drive files </h4>
+                        </li>
+                        <div class="divider"></div>
+                        <span class="left">
+                            <a href="" id="refreshList"> <i class="material-icons" style="font-size: 40px; margin-top: 20px; color: forestgreen;"> autorenew </i> </a>
+                        </span>
+                        <% if (sharedFile)  { %>
+                            <li class="collection-header center-align">
+                                <div class="alert alert-success alert-dismissible" id="alert">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close" >×</a >
+                                    <strong>Success!</strong> Sharable link created successfully. <br/>
+                                    <a href="<%=sharedLink%>"> <%=sharedLink%></a>
+                                </div>
+                            </li>
+                        <%}%>
+                    </ul>
+                    <br/> <br/>
+                    <ul class="collection-body mx-5" id="drive-items">
+                        <% for(var file of fileArray) { %>
+                        <li class="collectionItem" data-id="<%=file.id%>">
+                            <p> <span class="flow-text" style="padding-right: 102px;"> <%=file.file%> </span> <br/><br/>
+                                <em> File Type: <%=file.type%></em>
+                                <a href=""> <i class="material-icons share">share</i></a>
+                                <button id="deleteGfiles" type="button">
+                                    <i class="material-icons delete" id="deleteFile">delete</i>
+                                </button>
+                            </p>
+                        </li>
+                        <hr class="rounded" />
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
