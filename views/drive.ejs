@@ -69,4 +69,22 @@
         </div>
     </div>
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $('#drive-items li a').click(function() {
+        var textLoaded = $(this).closest('li[data-id]').data('id');
+        var reqBody = { 'id': textLoaded }
+
+        $.post({
+            traditional: true,
+            url: '/share',
+            contentType: 'application/json',
+            data: JSON.stringify( reqBody ),
+            dataType: 'json',
+            success: function(response){ console.log( response ); }
+        }).then(() =>
+            location.reload(),
+        );
+    });
+</script>
 </html>
