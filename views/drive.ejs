@@ -55,7 +55,7 @@
                         <li class="collectionItem" data-id="<%=file.id%>">
                             <p> <span class="flow-text" style="padding-right: 102px;"> <%=file.file%> </span> <br/><br/>
                                 <em> File Type: <%=file.type%></em>
-                                <a href=""> <i class="material-icons share">share</i></a>
+                                <a href="" id="share-file"> <i class="material-icons share">share</i></a>
                                 <button id="deleteGfiles" type="button">
                                     <i class="material-icons delete" id="deleteFile">delete</i>
                                 </button>
@@ -71,7 +71,7 @@
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
-    $('#drive-items li a').click(function() {
+    $('#share-file').click(function() {
         var textLoaded = $(this).closest('li[data-id]').data('id');
         var reqBody = { 'id': textLoaded }
 
