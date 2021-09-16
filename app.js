@@ -90,7 +90,7 @@ app.get('/google/callback', (req, res) => {
 app.post('/upload', (req, res) => {
     upload(req, res, function(err) {
         if(err) {
-            thorw err;
+            throw err;
         }
 
         const drive = google.drive({
@@ -181,6 +181,34 @@ app.get('/gldrive', async (req, res) => {
         sharedLink: sharedLink,
     });
 
+    }
+});
+
+// Delete file from Drive
+app.delete('/delete', async (req, res) => {
+    
+    try {
+        const response = await drive.files.delete({
+            fileId: req.body.id
+        });
+
+		sharedFile = false;
+		sharedLink = "";
+
+		res.render("drive", {
+			name: name,
+			pic: profilePic,
+			fileArray: fileArray,
+		}, (err, res) => {
+			if(err) {
+				thorw err;
+			} else {
+				console.log(response);
+			}
+
+        }
+    } catch(err) {
+        console.log(error.message)
     }
 });
 
