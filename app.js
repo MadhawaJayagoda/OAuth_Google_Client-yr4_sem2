@@ -127,10 +127,6 @@ app.post('/upload', (req, res) => {
     });
 });
 
-app.get('/logout', (req, res) => {
-   res.redirect('/');
-});
-
 async function getFileList(drive) {
     const response = await drive.files.list({
         pageSize: 10,
@@ -254,6 +250,9 @@ app.delete('/delete', async (req, res) => {
     }
 });
 
+app.get('/logout', (req, res) => {
+   res.redirect('/');
+});
 
 app.listen(3000, () => {
     console.log("Application is running on port:", 3000);
