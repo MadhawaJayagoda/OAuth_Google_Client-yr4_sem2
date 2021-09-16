@@ -184,7 +184,49 @@ app.get('/gldrive', async (req, res) => {
     }
 });
 
-// Delete file from Drive
+app.post('/share', async (req, res) => {
+
+    sharedLink = "";
+
+    try {
+        await drive.permissions.create({
+            fileId: fileId,
+            requestBody: {
+                role: 'reader',
+                type: 'anyone',
+            },
+        });
+
+        await drive.files.get({
+                fields: 'webViewLink, webContentLink',
+        }, (err, file) => {
+            if (err) {
+                throw err;
+            }
+
+            sharedFile = true;
+            sharedLink = file.data;
+
+            res.render("drive", {
+                name: name,
+                pic: profilePic,
+                fileArray: fileArray,
+                sharedLink: sharedLink
+            }, (err, res) => {
+                if(err) {
+                    console.log(err);
+                } else {
+                    console.log("Successfully shared link to front-end", sharedLink);
+                }
+            });
+        });
+
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+
 app.delete('/delete', async (req, res) => {
     
     try {
