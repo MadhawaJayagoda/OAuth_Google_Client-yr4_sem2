@@ -37,37 +37,40 @@
         font-size: 0.9rem;
     }
 
-
-    .container.upload {
-        overflow: hidden;
-        box-shadow: 0px 2px 8px 0px #b0bec5;
-        background-color: white;
-        text-align: center;
-        border-radius: 1rem;
-        position: relative;
-        margin-bottom: 1rem;
+    .container.file-data {
         width: 50rem;
-        height: 24rem;
-        padding-top: 5%;
-        margin-left: 1rem;
     }
 
-    .form-group.upload-file > button {
-        margin-top: 20px;
-        height: 40px;
+    .collectionItem {
+        padding-left: 20px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        position: relative;
     }
 
-    #sign_in_box {
-        padding-top: 80px;
+    .material-icons.share {
+        position: absolute;
+        font-size: 38px;
+        right: 80px;
     }
 
-    .ref.logout {
-        margin-right: 5rem;
+    .material-icons.delete {
+        position: absolute;
+        font-size: 38px;
+        right: 30px;
+        color: darkred;
+        bottom: 4px;
     }
 
-    li > a {
-        margin-inline: 5px;
-        padding: 5px;
+    hr.rounded {
+        border-top: 3px solid #bbb;
+        border-radius: 5px;
+    }
+
+    .collection-body {
+        display:block;
+        height:20rem;
+        overflow:auto;
     }
 
     .nav-wrapper {
@@ -81,8 +84,21 @@
         margin-left: 70px;
     }
 
-    .fit_image_square {
-        object-fit: contain;
+    #nav-items {
+        margin-right: 50px;
+        padding: 5px;
+    }
+
+    .container.file-data {
+        overflow: hidden;
+        box-shadow: 0px 2px 8px 0px #b0bec5;
+        background-color: white;
+        text-align: center;
+        border-radius: 1rem;
+        position: relative;
+        width: 60rem;
+        margin-bottom: 1rem;
+        margin-left: 1rem;
     }
 
 </style>
