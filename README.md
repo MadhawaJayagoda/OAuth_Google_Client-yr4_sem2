@@ -53,8 +53,10 @@ Done!  &nbsp; Now you should be able to access the running application from any 
   ## Screenshots of the Working application
   
   ![](screenshots/Screenshot%202021-10-02%20155717.jpg) 
-  ![](screenshots/Screenshot 2021-10-02 174726.jpg) 
-  ![](screenshots/Screenshot 2021-10-02 174809.jpg)
+  ![](screenshots/Screenshot%202021-10-02%20174726.jpg) 
+  ![](screenshots/Screenshot%202021-10-02%20174809.jpg)
+  
+  <img src="https://github.com/MadhawaJayagoda/OAuth_Google_Client-yr4_sem2/blob/fb63004994922a89a594ef6b55270b971530fa37/screenshots/Screenshot%202021-10-02%20155717.jpg" width="500" height="300">
   
   
   
