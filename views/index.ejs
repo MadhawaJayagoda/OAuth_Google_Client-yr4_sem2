@@ -2,18 +2,25 @@
 <html>
 <head>
     <title>Node Authentication</title>
+
+    <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+
+    <!-- load fontawesome -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+
+    <!-- load Materialize -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Materialize Icons   -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- CSS Styling -->
+    <%- include('./css/index_css'); %>
 </head>
 <body>
-    <nav class="nav-wrapper">
-        <span class="material-icons google-drive">add_to_drive</span>
-        <ul class="right">
-            <li><a href="" class="ref drive"> Drive </a></li>
-            <li><a href="" class="ref logout"> Logout </a></li>
-        </ul>
-    </nav>
-
     <div class="container center-align">
-        <div  class="z-depth-3 y-depth-3 x-depth-3 grey green-text lighten-4 row" style="display: inline-block; padding: 32px 48px 0px 48px; border: 1px; margin-top: 100px; solid #EEE;">
+        <div  class="z-depth-3 y-depth-3 x-depth-3 grey green-text lighten-4 row" style="display: inline-block; padding: 32px 48px 0px 48px; border: 1px; margin-top: 100px; solid: #EEE;">
             <br/>
             <br/>
             <br/>
@@ -43,7 +50,6 @@
 
 
             <div class='row center-align'>
-
             </div>
             <br>
             <br>
@@ -61,8 +67,11 @@
     <br>
     <br>
     <br>
+
+    <!--JavaScript-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 
 </html>
