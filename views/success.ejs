@@ -2,11 +2,36 @@
 <html>
 <head>
     <title>Node Authentication</title>
+
+    <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+
+    <!-- load fontawesome -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+
+    <!-- load Materialize -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Materialize Icons   -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- CSS Styling -->
+    <%- include('./css/success_css'); %>
 </head>
 <body>
+    <nav class="nav-wrapper">
+        <span class="material-icons google-drive">add_to_drive</span>
+        <ul class="right" id="nav-items">
+            <li><a href="/" class="ref upload"> Upload </a></li>
+            <li><a href="/gldrive" class="ref drive"> Drive </a></li>
+            <li><a href="/logout" class="ref logout"> Logout </a></li>
+        </ul>
+    </nav>
+
+
     <div class="container">
         <div class="page-header text-center">
-            <h1><span class="fa fa-anchor"></span> Profile Page</h1>
+            <h1><span class="fa fa-cloud-upload"></span> Upload Files</h1>
             <a href="/logout" class="btn btn-default btn-sm">Logout</a>
         </div>
 
@@ -28,8 +53,9 @@
                         &nbsp; <span style="font-family: Arial;">Upload File to Google Drive </span>
                     </h3>
 
+
                     <% if (success) { %>
-                        <div class="alert alert-success alert-dismissible">
+                        <div class="alert alert-success alert-dismissible" id="alert">
                             <a href="#" class="close" data-dismiss="alert" aria-label="close" >×</a >
                             <strong>Success!</strong> Your File is Uploaded.
                         </div>
@@ -50,5 +76,19 @@
             </div>
         </div>
     </div>
+
+    <!--JavaScript-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <!-- Close the Success alert after some time -->
+    <script type="text/javascript">
+        setTimeout(function () {
+
+            // Closing the alert
+            $('#alert').alert('close');
+        }, 3000);
+    </script>
 </body>
 </html>
