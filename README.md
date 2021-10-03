@@ -49,9 +49,10 @@ Done!  &nbsp; Now you should be able to access the running application from any 
 >![](screenshots/screenshot-This-app-isnt-verified.png){:height="700px" width="400px"}
   
   ##Screenshots of the Working application
-  ![](screenshots/Screenshot 2021-10-02 155717.jpg) 
-  ![](screenshots/Screenshot 2021-10-02 174726.jpg) 
-  ![](screenshots/Screenshot 2021-10-02 174809.jpg)
+  
+  >![](screenshots/Screenshot 2021-10-02 155717.jpg) 
+  >![](screenshots/Screenshot 2021-10-02 174726.jpg) 
+  >![](screenshots/Screenshot 2021-10-02 174809.jpg)
   
   
   
