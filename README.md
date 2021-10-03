@@ -2,6 +2,7 @@
 
 This is a project done for Secure Software Development (SSD) module - 4th Year 2nd Semester, in order to demonstrate the workflow of OAuth 2.0 - Authorization Code grant type. Using the application, users could do the following tasks:
 * :heavy_check_mark: Upload a file to their Google Drive 
+* :heavy_check_mark: View files in Google Drive
 * :heavy_check_mark: Create a sharable link
 * :heavy_check_mark: Delete a file in Google Drive
 
@@ -12,11 +13,13 @@ This is a project done for Secure Software Development (SSD) module - 4th Year 2
  
 <br/>
 
- ## Installation
- ### *Prerequisites*
+ ## Installation   <br/>
+ 
+ ### *Prerequisites*   <br/>
  In order to run the project, you need to have node installed in the device that you are running.
  
- ### How to install and run the application
+ ### <br/> How to install and run the application  <br/>
+ ---
  **Step 1: Clone the Repo**
 ```bash
     git clone https://github.com/MadhawaJayagoda/OAuth_Google_Client-yr4_sem2.git
@@ -49,11 +52,20 @@ Done!  &nbsp; Now you should be able to access the running application from any 
 ><img src="https://github.com/MadhawaJayagoda/OAuth_Google_Client-yr4_sem2/blob/fd984d76055291e8689b193ea4b30bb85a5a7de8/screenshots/screenshot-This-app-isnt-verified.png" width="400" height="200">
   
   
-  
-  ## Screenshots of the Working application
-  <img src="https://github.com/MadhawaJayagoda/OAuth_Google_Client-yr4_sem2/blob/fb63004994922a89a594ef6b55270b971530fa37/screenshots/Screenshot%202021-10-02%20155717.jpg" width="700" height="500"> &nbsp;&nbsp;
-  <img src="https://github.com/MadhawaJayagoda/OAuth_Google_Client-yr4_sem2/blob/fd984d76055291e8689b193ea4b30bb85a5a7de8/screenshots/Screenshot%202021-10-02%20174726.jpg" width="700" height="500"> &nbsp;&nbsp;
-  <img src="https://github.com/MadhawaJayagoda/OAuth_Google_Client-yr4_sem2/blob/fd984d76055291e8689b193ea4b30bb85a5a7de8/screenshots/Screenshot%202021-10-02%20174809.jpg" width="700" height="500">
+  #### <br/>
+  ## Screenshots of the Working application <br/><br/>
+  <pre>
+  <img src="https://github.com/MadhawaJayagoda/OAuth_Google_Client-yr4_sem2/blob/fb63004994922a89a594ef6b55270b971530fa37/screenshots/Screenshot%202021-10-02%20155717.jpg" width="870" height="500"> 
+  <br/>
+  </pre>
+  <pre>
+  <img src="https://github.com/MadhawaJayagoda/OAuth_Google_Client-yr4_sem2/blob/fd984d76055291e8689b193ea4b30bb85a5a7de8/screenshots/Screenshot%202021-10-02%20174726.jpg" width="870" height="500"> 
+  <br/>
+  </pre>
+  <pre>
+  <img src="https://github.com/MadhawaJayagoda/OAuth_Google_Client-yr4_sem2/blob/fd984d76055291e8689b193ea4b30bb85a5a7de8/screenshots/Screenshot%202021-10-02%20174809.jpg" width="870" height="500"> 
+  <br/>
+  </pre>
   
   
   
