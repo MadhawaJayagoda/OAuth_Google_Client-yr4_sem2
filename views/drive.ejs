@@ -2,11 +2,28 @@
 <html>
 <head>
     <title>Node Authentication</title>
+
+    <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+
+    <!-- load fontawesome -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+
+    <!-- load Materialize -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Materialize Icons   -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- CSS Styling -->
+    <%- include('./css/drive_css'); %>
 </head>
 <body>
+
     <nav class="nav-wrapper">
         <span class="material-icons google-drive">add_to_drive</span>
         <ul class="right" id="nav-items">
+            <li><a href="/" class="ref upload"> Upload </a></li>
             <li><a href="/gldrive" class="ref drive"> Drive </a></li>
             <li><a href="/logout" class="ref logout"> Logout </a></li>
         </ul>
@@ -14,11 +31,12 @@
 
     <div class="container">
         <div class="page-header text-center">
-            <h1><span class="fa fa-anchor"></span> Profile Page</h1>
+            <h1><span class="fa fa-files-o"></span> &nbsp; All Files</h1>
             <a href="/logout" class="btn btn-default btn-sm">Logout</a>
         </div>
 
         <div class="row">
+            <!-- GOOGLE INFORMATION -->
             <div class="col-sm-4">
                 <div class="container profile">
                     <div class='banner-img'></div>
@@ -55,7 +73,7 @@
                         <li class="collectionItem" data-id="<%=file.id%>">
                             <p> <span class="flow-text" style="padding-right: 102px;"> <%=file.file%> </span> <br/><br/>
                                 <em> File Type: <%=file.type%></em>
-                                <a href="" id="share-file"> <i class="material-icons share">share</i></a>
+                                <a href=""> <i class="material-icons share">share</i></a>
                                 <button id="deleteGfiles" type="button">
                                     <i class="material-icons delete" id="deleteFile">delete</i>
                                 </button>
@@ -68,11 +86,21 @@
             </div>
         </div>
     </div>
-</body>
+
+
+
+<!--JavaScript-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+<!-- onClick lIst item share button -->
 <script>
-    $('#share-file').click(function() {
+    $('#drive-items li a').click(function() {
         var textLoaded = $(this).closest('li[data-id]').data('id');
+        // $('#loading-content').text(textLoaded);
+
+        // alert("You clicked on Drive Item with ID: " + textLoaded);
         var reqBody = { 'id': textLoaded }
 
         $.post({
@@ -87,4 +115,54 @@
         );
     });
 </script>
+
+<!-- delete button click event -->
+<script>
+    $('#drive-items li button').click(function() {
+
+        var textLoaded = $(this).closest('li[data-id]').data('id');
+        //console.log("Delete bin cliked");
+        // var textLoaded = $(this).closest('li[data-id]').data('id');
+        // $('#loading-content').text(textLoaded);
+
+        //console.log("Item ID: " + textLoaded);
+        // alert("You clicked on Drive Item with ID: " + textLoaded);
+        var reqBody = { 'id': textLoaded }
+
+        $.ajax({
+            traditional: true,
+            url: '/delete',
+            type: 'DELETE',
+            contentType: 'application/json',
+            data: JSON.stringify( reqBody ),
+            dataType: 'json',
+            success: function(response){
+                //console.log( response );
+                $('[data-id='+textLoaded+']').remove();
+            }
+        }).then(() =>
+            location.reload(),
+        );
+    });
+</script>
+
+
+<!-- Close the Success alert after some time -->
+<script type="text/javascript">
+    setTimeout(function () {
+
+        // Closing the alert
+        $('#alert').alert('close');
+    }, 6000);
+</script>
+
+<script>
+    $("document").ready(function() {
+        setTimeout(function() {
+            $('#refreshList')[0].dispatchEvent(new Event('click'))
+        },1000);
+    });
+</script>
+
+</body>
 </html>
