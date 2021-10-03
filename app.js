@@ -9,10 +9,12 @@ require('dotenv/config');
 let constants = require('./resources/constants');
 const {google} = require('googleapis');
 
+//Middleware
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static("public"));
 
+// Set the view engine 
 app.set('view engine', 'ejs');
 
 const OAuth2Client = new google.auth.OAuth2(
@@ -22,19 +24,36 @@ const OAuth2Client = new google.auth.OAuth2(
 );
 
 var authorized = false;
-
 var name;
 var profilePic;
+var fileArray;
+var sharedFile = false;
+var sharedLink = "";
+
+var storage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, "./images");
+    },
+    filename: function (req, file, callback) {
+        callback(null, file.fieldname + "_" + Date.now() + "_" + file.originalname )
+    },
+});
+
+var upload = multer({
+    storage: storage,
+}).single("file");  // Filed name and max count
+
+
 
 // ROUTES
+// Display Login page, if not authenticated
+// Else, display main inteface, if the user is already authenticated. 
 app.get('/', (req, res) => {
-	 if (!authorized) {
+    if (!authorized) {
         let url = OAuth2Client.generateAuthUrl({
             access_type: constants.ACCESS_TYPE,
             scope: constants.SCOPES
         });
-
-        console.log(url);
 
         res.render("index", {url:url});
     } else {
@@ -44,13 +63,12 @@ app.get('/', (req, res) => {
             version: 'v2'
         });
 
+        // Get User info from Google resource server
         oAuth2.userinfo.get(function (err, response) {
             if (err) {
                 console.log(err.message);
                 throw err;
             }
-
-            console.log(response.data);
 
             name = response.data.name;
             profilePic = response.data.picture;
@@ -63,69 +81,93 @@ app.get('/', (req, res) => {
         })
 
     }
+
 });
 
 app.get('/google/callback', (req, res) => {
 
+    // Authorization token from Google after verification
     const code = req.query.code;
 
     if(code) {
+        // Get the access token
         OAuth2Client.getToken( code, function (err, tokens) {
             if (err) {
-                console.log("Error occured when getting Access Tokens", err.message);
+                console.log("Error occured when getting Access Token", err.message);
             } else {
-                console.log("Successfully received an Access Token");
-                console.log("Access Tokens: ", tokens);
+                // Succcessfully received an Access Token
                 OAuth2Client.setCredentials(tokens);
 
                 authorized = true;
 
                 res.redirect('/')
             }
-
         })
     }
 });
 
+// Upload files to Google Drive
 app.post('/upload', (req, res) => {
-    upload(req, res, function(err) {
-        if(err) {
-            throw err;
-        }
-
-        const drive = google.drive({
-            version:'v3',
-            auth: OAuth2Client
+    if (!authorized) {
+        let url = OAuth2Client.generateAuthUrl({
+            access_type: constants.ACCESS_TYPE,
+            scope: constants.SCOPES
         });
 
-        const fileMetaData = {
-            name: req.file.filename
-        };
+        res.render("index", {url: url});
+    } else {
 
-        const media = {
-            mimeType: req.file.mimetype,
-            body: fs.createReadStream(req.file.path)
-        };
-
-        drive.files.create({
-            resource: fileMetaData,
-            media: media,
-            fields: "id"
-        }, (err, file) => {
-            if (err) {
-                console.log("Error occured in uploading file to Google Drive");
+        // User Logged in - User has an Active session
+        upload(req, res, function(err) {
+            if(err) {
+                // Error in Multer file upload
                 console.log(err.message);
-                throw err;
             }
 
-            res.render("success", {
-                name: name,
-                pic: profilePic,
-                success:true
-            })
+            // Upload to drive
+            const drive = google.drive({
+                version:'v3',
+                auth: OAuth2Client
+            });
+
+            const fileMetaData = {
+                name: req.file.filename
+            };
+
+            const media = {
+                mimeType: req.file.mimetype,
+                body: fs.createReadStream(req.file.path)
+            };
+
+            drive.files.create({
+                resource: fileMetaData,
+                media: media,
+                fields: "id"
+            }, (err, file) => {
+                if (err) {
+                    //Error occured in uploading file to Google Drive
+                    console.log(err.message);
+                    throw err;
+                }
+
+                // Delete the file in the images folder
+                fs.unlinkSync(req.file.path);
+                res.render("success", {
+                    name: name,
+                    pic: profilePic,
+                    success:true
+                })
+            });
         });
-    });
+    }
 });
+
+// Terminate the current session of the user
+app.get('/logout', (req, res) => {
+   authorized = false;
+   res.redirect('/');
+});
+
 
 async function getFileList(drive) {
     const response = await drive.files.list({
@@ -157,103 +199,155 @@ async function getFileList(drive) {
 
 app.get('/gldrive', async (req, res) => {
 
-    const drive = google.drive({
-        version: "v3",
-        auth: OAuth2Client
-    });
-    fileArray = await getFileList(drive).catch((err) => {
-        if (err) console.log(err);
-    });
-
-    if(fileArray.length == undefined || fileArray.length == 0 ) {
-        res.redirect('/');
-    } else {
-
-    res.render("drive", {
-        name: name,
-        pic: profilePic,
-        fileArray: fileArray,
-        sharedFile: sharedFile,
-        sharedLink: sharedLink,
-    });
-
-    }
-});
-
-app.post('/share', async (req, res) => {
-
-    sharedLink = "";
-
-    try {
-        await drive.permissions.create({
-            fileId: fileId,
-            requestBody: {
-                role: 'reader',
-                type: 'anyone',
-            },
+    if (!authorized) {
+		// User is not logged In
+		
+        let url = OAuth2Client.generateAuthUrl({
+            access_type: constants.ACCESS_TYPE,
+            scope: constants.SCOPES
         });
 
-        await drive.files.get({
-                fields: 'webViewLink, webContentLink',
-        }, (err, file) => {
-            if (err) {
-                throw err;
-            }
+        res.render("index", {url: url});
+    } else {
 
-            sharedFile = true;
-            sharedLink = file.data;
-
+        // User Logged in - has an Active session
+        const drive = google.drive({
+            version: "v3",
+            auth: OAuth2Client
+        });
+        fileArray = await getFileList(drive).catch((err) => {
+            if (err) console.log(err);
+        });
+        
+        if (fileArray.length == undefined || fileArray.length == 0) {
+			// No files in Drive
+            res.redirect('/');
+        } else {
             res.render("drive", {
                 name: name,
                 pic: profilePic,
                 fileArray: fileArray,
-                sharedLink: sharedLink
-            }, (err, res) => {
-                if(err) {
-                    console.log(err);
-                } else {
-                    console.log("Successfully shared link to front-end", sharedLink);
-                }
+                sharedFile: sharedFile,
+                sharedLink: sharedLink,
             });
-        });
-
-    } catch (error) {
-        console.log(error);
-    }
-});
-
-
-app.delete('/delete', async (req, res) => {
-    
-    try {
-        const response = await drive.files.delete({
-            fileId: req.body.id
-        });
-
-		sharedFile = false;
-		sharedLink = "";
-
-		res.render("drive", {
-			name: name,
-			pic: profilePic,
-			fileArray: fileArray,
-		}, (err, res) => {
-			if(err) {
-				thorw err;
-			} else {
-				console.log(response);
-			}
-
         }
-    } catch(err) {
-        console.log(error.message)
     }
 });
 
-app.get('/logout', (req, res) => {
-   res.redirect('/');
+//create a public url
+app.post('/share', async (req, res) => {
+    if (!authorized) {
+		// User not logged in
+        let url = OAuth2Client.generateAuthUrl({
+            access_type: constants.ACCESS_TYPE,
+            scope: constants.SCOPES
+        });
+
+        res.render("index", {url: url});
+    } else {
+        // User logged in - User has an Active session
+        sharedLink = "";
+
+        const drive = google.drive({
+            version: "v3",
+            auth: OAuth2Client
+        });
+
+        try {
+            const fileId = req.body.id;
+            //change file permisions to public.
+            await drive.permissions.create({
+                fileId: fileId,
+                requestBody: {
+                    role: 'reader',
+                    type: 'anyone',
+                },
+            });
+
+            await drive.files.get({
+                fileId: fileId,
+                fields: 'webViewLink, webContentLink',
+            }, (err, file) => {
+                if (err) {
+					// Error in creating a sharable link
+                    console.log(err.message);
+                    throw err;
+                }
+
+                sharedFile = true;
+                sharedLink = file.data.webViewLink;
+
+                res.render("drive", {
+                    name: name,
+                    pic: profilePic,
+                    fileArray: fileArray,
+                    sharedFile: sharedFile,
+                    sharedLink: sharedLink
+                }, (err, res) => {
+                    if(err) {
+                        // Error in sending link to Front-end
+                        console.log(err);
+                    } else {
+                        console.log(sharedLink);
+                    }
+                });
+            });
+
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
 });
 
+// Delete file from Drive
+app.delete('/delete', async (req, res) => {
+    if (!authorized) {
+		// User not logged in
+        let url = OAuth2Client.generateAuthUrl({
+            access_type: constants.ACCESS_TYPE,
+            scope: constants.SCOPES
+        });
+
+        res.render("index", {url: url});
+    } else {
+
+        // User Logged In - User has an Active Session
+        const drive = google.drive({
+            version: "v3",
+            auth: OAuth2Client
+        });
+        try {
+            const response = await drive.files.delete({
+                fileId: req.body.id
+            });
+
+            if(response.status >= 200 && response.status < 300) {
+
+                sharedFile = false;
+                sharedLink = "";
+
+                res.render("drive", {
+                    name: name,
+                    pic: profilePic,
+                    fileArray: fileArray,
+                    sharedFile: sharedFile,
+                    sharedLink: sharedLink
+                }, (err, res) => {
+                    if(err) {
+                        console.log(err);
+                    } else {
+                        console.log(sharedLink);
+                    }
+                });
+            }
+        } catch(err) {
+            console.log(error.message)
+        }
+    }
+});
+
+
+// start listening to the server
 app.listen(3000, () => {
     console.log("Application is running on port:", 3000);
 });
