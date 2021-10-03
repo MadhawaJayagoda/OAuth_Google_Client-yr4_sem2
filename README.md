@@ -46,17 +46,14 @@ Done!  &nbsp; Now you should be able to access the running application from any 
   
   > ⚠ **Note**: If you get the Warning message shown below that the app isn't verify, Please continue to the webpage by using the **Advanced** option below the message. 
 >   
->![](screenshots/screenshot-This-app-isnt-verified.png){:height="700px" width="400px"}
+><img src="https://github.com/MadhawaJayagoda/OAuth_Google_Client-yr4_sem2/blob/fd984d76055291e8689b193ea4b30bb85a5a7de8/screenshots/screenshot-This-app-isnt-verified.png" width="400" height="200">
   
   
   
   ## Screenshots of the Working application
-  
-  ![](screenshots/Screenshot%202021-10-02%20155717.jpg) 
-  ![](screenshots/Screenshot%202021-10-02%20174726.jpg) 
-  ![](screenshots/Screenshot%202021-10-02%20174809.jpg)
-  
-  <img src="https://github.com/MadhawaJayagoda/OAuth_Google_Client-yr4_sem2/blob/fb63004994922a89a594ef6b55270b971530fa37/screenshots/Screenshot%202021-10-02%20155717.jpg" width="500" height="300">
+  <img src="https://github.com/MadhawaJayagoda/OAuth_Google_Client-yr4_sem2/blob/fb63004994922a89a594ef6b55270b971530fa37/screenshots/Screenshot%202021-10-02%20155717.jpg" width="700" height="500"> &nbsp;&nbsp;
+  <img src="https://github.com/MadhawaJayagoda/OAuth_Google_Client-yr4_sem2/blob/fd984d76055291e8689b193ea4b30bb85a5a7de8/screenshots/Screenshot%202021-10-02%20174726.jpg" width="700" height="500"> &nbsp;&nbsp;
+  <img src="https://github.com/MadhawaJayagoda/OAuth_Google_Client-yr4_sem2/blob/fd984d76055291e8689b193ea4b30bb85a5a7de8/screenshots/Screenshot%202021-10-02%20174809.jpg" width="700" height="500">
   
   
   
